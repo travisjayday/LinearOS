@@ -1,0 +1,11 @@
+megs: 32
+speaker: enabled=1, mode=system
+romimage: file=/usr/share/bochs/BIOS-bochs-latest, address=0xfffe0000
+#vgaromimage: file=/usr/share/bochs/VGABIOS-lgpl-latest
+vgaromimage: file=/usr/share/bochs/VGABIOS-elpin-2.40
+floppya: 1_44=build/floppy.img, status=inserted
+boot: a
+log: bochsout.txt
+mouse: enabled=0
+clock: sync=realtime, time0=local
+display_library: x #, options="gui_debug" #add gui_debug for debuggin
