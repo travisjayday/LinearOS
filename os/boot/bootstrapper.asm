@@ -13,11 +13,6 @@ bootsrapper:
 	call	attempt_init_a20
 	call 	init_fpu
 
-	cli	
-	; setup interrupts
-	call repgrogram_pic
-	lidt idt_desc
-
 	; wait a little
 	mov	cx, 0x003E
 	mov	dx, 0x8480
@@ -36,6 +31,7 @@ bootsrapper:
 	; enter protected mode
 	cli	
 	lgdt	[gdtr]		; load gdt
+	lidt	[idt_48] 
 	
 	mov	eax, cr0
 	or	eax, 1
@@ -44,7 +40,9 @@ bootsrapper:
 	jmp 	(CODE_DESC - NULL_DESC) : protect_mode 	
 
 	hlt
-
+idt_48:
+    dw 0            
+    dd 0 
 write_str: 
 	mov 	ah, 0x0E	
    write_ch:	
@@ -57,17 +55,17 @@ write_str:
 	ret
 
 ; includes
-%include "/root/Programming/OS/LinearOS/boot/src/a20.asm"
-%include "/root/Programming/OS/LinearOS/boot/src/fpu.asm"
-%include "/root/Programming/OS/LinearOS/boot/src/interrupts.asm"
+%include "os/boot/src/a20.asm"
+%include "os/boot/src/fpu.asm"
 
 vga_str:
-	db "Switching to VGA...", 0x0
+	db "Switching to VGA...", 0xA, 0xD, "Jumping to Protected mode & Enabling Interrupts", 0x0
 
+; each entyr is 8 bytes long
 NULL_DESC: 
 	dd 0
 	dd 0 
-
+; gdt + 8 
 CODE_DESC:
 	dw 0xFFFF	; limit low
 	dw 0 		; base low
@@ -76,6 +74,7 @@ CODE_DESC:
 	db 11001111b	; granularity
 	db 0 		; base high 
 
+; gdt + 16
 DATA_DESC:
 	dw 0xFFFF	; limit low
 	dw 0		; base low
@@ -89,10 +88,17 @@ gdtr:
 	base	dd NULL_DESC			; start of gdt
 
 bits 32
+
+%include "os/boot/src/interrupts.asm"
+
 protect_mode: 
 	mov	ax, DATA_DESC - NULL_DESC
 	mov 	ds, ax	; update data segment
 
+	; setup interrupts
+	call 	reprogram_pic	; resets bios defaults for hardware interrupts, mapping them to IRD > 32	
+	lidt	[idt_descr]	; remembers the base adres and size of idt
+	nop
 	call	kernel_main
 	hlt
 

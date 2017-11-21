@@ -28,11 +28,11 @@ void draw_char(uint16_t _x, uint16_t _y, uint8_t c, uint8_t color)
 
 	uint32_t loc = 1; 
 	uint32_t character = CHAR_MAP[c];
-       	_y *= VGA_WIDTH; 
+    _y *= VGA_WIDTH; 
 	loc = loc << 31; 
-	for (int h = 0; h < 5 * VGA_WIDTH; h += VGA_WIDTH)
+	for (uint16_t h = 0; h < 5 * VGA_WIDTH; h += VGA_WIDTH)
 	{
-		for (int w = 0; w < 5; w++)
+		for (uint8_t w = 0; w < 5; w++)
 		{
 			if (character & loc)
 			       *(VBUFFER_MEM + _y + _x + h + w) = color; 
@@ -41,14 +41,22 @@ void draw_char(uint16_t _x, uint16_t _y, uint8_t c, uint8_t color)
 	}
 }
 
-void draw_string(uint16_t _x, uint16_t _y, char* str, uint8_t color)
+void draw_string(uint16_t _x, uint16_t _y, uint8_t* str, uint8_t color)
 {
-	char c;
-	char i = 0; 
-	while ((c = *(str + i)) != '\0')
+	uint8_t c;			// character var
+	uint8_t dx = 0;		// delta x position coordinate 
+	for (uint8_t i = 0; (c = *(str + i)) != '\0'; i++)
 	{
-		draw_char(_x + i * 7, _y, c, color); 
-		i++;
+		if (c == '\n')
+		{
+			_y += 7; 	// newline
+			dx = 0;		// delta x = 0 = carriage return 
+		}
+		else
+		{
+			draw_char(_x + dx * 7, _y, c, color); 
+			dx++; 
+		}
 	}
 }
 

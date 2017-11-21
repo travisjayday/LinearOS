@@ -8,7 +8,7 @@ uint8_t* malloc(uint32_t size);
 
 void linear_free(uint32_t size); 
 
-void memcpy8_t(uint8_t* dest, uint8_t* src, uint32_t size);
+void memcpy8_t(void* dest, void* src, uint32_t size);
 
 void memcpy32_t(uint32_t* dest, uint32_t* src, uint32_t size);
 

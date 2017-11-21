@@ -41,7 +41,7 @@ void widget_init_keyboard(Widget* wid, void (*key_handler)())
 
 void widget_render_text(Widget* wid)
 {
-	uint8_t cperline = (int)((float)wid->width / 7.0 + 0.5);
+	uint8_t cperline = wid->width / 7; /// 7.0);// + 0.5);
 
 	// loop through multi lines
 	for (uint8_t l = 0; ; l++) 
@@ -114,7 +114,6 @@ void widget_update_all()
 		{
 			// text mode enabled
 			widget_render_text(WidgetList[i]);
-
 		}
 	}	
 }

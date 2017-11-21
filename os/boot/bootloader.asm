@@ -42,7 +42,7 @@ start:
 
 	; attempt read 
 	mov	ah, 0x02	; select read
-	mov	al, 0x1F	; num sectors
+	mov	al, 0x2F	; num sectors
 	int 	0x13
 	jc	read_floppy
 

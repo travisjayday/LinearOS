@@ -18,11 +18,11 @@ void linear_free(uint32_t size)
 	free_memory -= size; 
 }
 
-void memcpy8_t(uint8_t* dest, uint8_t* src, uint32_t size)
+void memcpy8_t(void* dest, void* src, uint32_t size)
 {
 	for (int i = 0; i < size; i++) 
 	{
-		*(dest + i) = *(src + i); 
+		*((uint8_t*)dest + i) = *((uint8_t*)src + i); 
 	}
 }
 
