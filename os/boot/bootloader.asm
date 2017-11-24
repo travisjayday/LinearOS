@@ -3,7 +3,32 @@ org	0x7C00
 
 jmp start
 nop
-resb 8+45
+;------------------------------------------;
+;  Standard BIOS Parameter Block, "BPB".   ;
+;------------------------------------------;
+     bpbOEM    		db  'MSDOS5.0'
+     bpbSectSize	dw  512
+     bpbClustSize	db  1
+     bpbReservedSe	dw  1
+     bpbFats   		db  2
+     bpbRootSize	dw  224
+     bpbTotalSect	dw  2880
+     bpbMedia  		db  240
+     bpbFatSize 	dw  9
+     bpbTrackSect	dw  18
+     bpbHeads 		dw  2
+     bpbHiddenSect	dd  0
+     bpbLargeSect	dd  0
+     ;---------------------------------;
+     ;  extended BPB for FAT12/FAT16   ;
+     ;---------------------------------;
+     bpbDriveNo		db  0
+     bpbReserved	db  0
+     bpbSignature	db  41            
+     bpbID    		dd  1
+     bpbVolumeLabel	db  'BOOT FLOPPY'
+     bpbFileSystem	db  'FAT12   '
+
 
 start: 
 	; setup segments
@@ -14,7 +39,7 @@ start:
 	; setup stack
 	cli
 	mov	ss, ax
-	mov	sp, 0x7DFF
+	mov	sp, 0x7C00
 	sti
 
 	; write start string
@@ -80,7 +105,46 @@ start_str:
 strapper_loaded_str:
 	db "Starting Stage 2 Loader...", 0xA, 0xD, 0x00
 
-times 510 - ($-$$) db 0
+times 0x1b4 - ($-$$) db 0	; start of partition table
+
+; 0x1b4
+;times 10 db 0 				; unique ID
+db "12345678"
+db 0
+db 0
+; 0x1be 		; Partition 1 
+db 0x80			; boot indicator flag = on
+; start sector
+db 0x00			; starting head = 0
+db 0b00000001	; 2 cylinder high bits, and sector. 00 000001 = high bits cyilinder = 0, sector = 1
+db 0x00			; 7-0 bits of cylinder (insgesamt 9 bits) 
+; filesystem type
+db 0x06			; filesystem type = fat16
+; end sector = start sector
+db 0x01			; ending head = 2
+db 18	; 2 cylinder high bits, and sector. 00 000001 = high bits cyilinder = 0, sector = 1
+db 79			; 7-0 bits of cylinder (insgesamt 9 bits) 
+
+db 0			; 32 bit value 
+db 0			; of number of sectors between MBR and partition
+db 0
+db 0			
+
+db 0			; 32 bit value 
+db 0			; = 2880 (0xb40)
+db 0x0B
+db 0x40			; total num of sectors in partition
+
+; 0x1ce			; Partition 2
+times 16 db 0
+
+; 0x1de			; Partition 3
+times 16 db 0
+
+; 0x1ee			; Parititon 4
+times 16 db 0
+
+; 0x1fe			; Signature
 dw	0xAA55
 
 
