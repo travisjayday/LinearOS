@@ -7,14 +7,16 @@ uint32_t strlen(uint8_t* str)
 
 uint8_t* int2str(uint32_t num)
 {
-	    uint8_t* str = malloc(10);
+	// 2^32 = 10 digits + 1 null terminator
+	    uint8_t* str = malloc(11);
 		int i;
-	   	for (i = 0; num != 0; i++)
+	   	for (i = 9; num != 0; i--)
 	   	{
-			str[10-i] = (num % 10) + '0';
+			str[i] = (num % 10) + '0';
 			num /= 10;
 		}
-		str[10-i] = '\0';
+		str[10] = '\0';
+		str += i + 1; 
 	    return str;
 }
 

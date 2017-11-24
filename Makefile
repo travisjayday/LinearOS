@@ -1,19 +1,40 @@
 C_files = os/kernel.c os/src/*
 Build_Dir = $(shell pwd)
 
+elf_sources = os/boot/bootstrapper.asm \
+			  os/init/isr_keyboard.asm \
+			  os/init/isr_pit.asm \
+			  os/init/init_pit.o
+
+elf_objects = build/bootstrapper.o \
+		  build/isr_keyboard.o \
+		  build/isr_pit.o \
+		  build/init_pit.o \
+		  build/kernel.o
+		  
+
 debug: main
 	cd bochs && bochs -q -rc debug.rc
 
-main: 
-	nasm os/boot/bootloader.asm -f bin -o build/loader.bin
-	nasm os/boot/bootstrapper.asm -f elf -o build/strapper.o
-	nasm os/init/src/isr_keyboard.asm -f elf -o build/keyboard.o
-	gcc -c -g -Os -std=gnu99 -march=i686 -ffreestanding -Wall -Werror -m32 os/kernel.c -o $(Build_Dir)/build/kernel.o
-	ld -Tlinker.ld -m elf_i386 build/strapper.o build/kernel.o build/keyboard.o -o build/kernel.elf
+main: make_obj
+	# link objs
+	#ld -Tlinker.ld -m elf_i386 build/strapper.o  build/keyboard.o build/isr_pit.o build/kernel.o -o build/kernel.elf
+	ld -Tlinker.ld -m elf_i386 $(elf_objects) -o build/kernel.elf
 	objcopy -O binary build/kernel.elf build/kernel.bin
+	# write to disk
 	dd if=/dev/zero of=build/floppy.img bs=1024 count=1440
-	dd if=build/loader.bin of=build/floppy.img bs=512 seek=0 count=1 conv=notrunc
+	dd if=build/bootloader.bin of=build/floppy.img bs=512 seek=0 count=1 conv=notrunc
 	dd if=build/kernel.bin of=build/floppy.img bs=512 seek=1 conv=notrunc
+
+make_obj: 
+	nasm os/boot/bootloader.asm -f bin -o build/bootloader.bin
+	# TODO: find a better way to assemble the following elf objects...
+	nasm os/boot/bootstrapper.asm -f elf -o build/bootstrapper.o
+	nasm os/init/asm/isr_keyboard.asm -f elf -o build/isr_keyboard.o
+	nasm os/init/asm/isr_pit.asm -f elf -o build/isr_pit.o
+	nasm os/init/asm/init_pit.asm -f elf -o build/init_pit.o
+	# kernel main
+	gcc -c -Os -std=gnu99 -march=i686 -ffreestanding -Wall -Werror -m32 os/kernel.c -o $(Build_Dir)/build/kernel.o
 
 # writes OS to USB automatically at /dev/sdb 
 usb:	main	

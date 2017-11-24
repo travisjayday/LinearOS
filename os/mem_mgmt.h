@@ -1,10 +1,10 @@
 #ifndef MEM_MGMT_H_
 #define MEM_MGMT_H_
 
-uint8_t* free_memory = (uint8_t*)(0x200000); // heap is 10kiB large 
+static void* free_memory = (void*)(0x200000); // heap is 10kiB large 
 
 // allocates memory and returns pointer to it
-uint8_t* malloc(uint32_t size);
+void* malloc(uint32_t size);
 
 void linear_free(uint32_t size); 
 

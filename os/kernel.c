@@ -2,10 +2,11 @@ asm (".code32");
 #include <stdint.h>
 #include "mem_mgmt.h"
 #include "helpers/strings.h"
-#include "drawing.h"
+#include "graphics/drawing.h"
 #include "src/panic.c"
 #include "init/interrupts.h"
 #include "init/keyboard.h"
+#include "init/pit_driver.h"
 #include "widget.h"
 
 
@@ -56,14 +57,17 @@ char get_scancode()
  	}
  }
 
-
-
 extern void kernel_main()
 {
-	allocate_vbuffer(); 
-	fill_buffer(VGA_COLOR_DARK_GREY); 
+	allocate_vbuffer(); 		
+//	asm ("movl %0, %%eax;": : "r"((uint32_t)free_memory)); 
+//	for (; ; ); 
+
+	
+	fill_buffer_pattern(STRIPES, VGA_COLOR_DARK_GREY, VGA_COLOR_LIGHT_GREY); 
 	isr_traps_init(); 
 	init_keyboard(); 
+	init_pit(); 
 	enable_hardware_interrupts(); 
 	asm volatile ("sti"); 
 	play_sound(1000); 
@@ -71,20 +75,33 @@ extern void kernel_main()
 	
 	draw_char(20, 20, 'F', VGA_COLOR_BLUE); 
 	draw_string(10, 50, name, VGA_COLOR_BROWN); 
-	draw_rect(20, 20, 100, 100, VGA_COLOR_WHITE);
-	// creates widget
+	draw_rect(20, 20, 100, 100, VGA_COLOR_WHITE);	
+
+
+//	register uint8_t* a asm ("eax");   
+//	a = sprite_blue; 
+//	asm("hlt"); 
+//	a += 2;
+
+//	flip_buffers(); // creates widget
+
+//	for (; ;); 
 	Widget console = widget_create1(10, 100, 300, 80, VGA_COLOR_BLUE, 0); 
+	Widget time = widget_create1(200, 5, 110, 30, VGA_COLOR_GREEN, 0); 
 
 	// adds widget to global WidgetList
 	widget_register(&console); 
+	widget_register(&time); 
 
 	// enables keyboard inut, callback will be called if widget is selected
 	widget_init_keyboard(&console, teletype_keyboard_callback);
+	widget_init_textmode(&time, 50); 
 
 //	widget_set_text(&console, (uint8_t*)"!\"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFG this is   space HIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\0"); 
 	//widget_set_text(&console, int2str(get_time())); 
 	widget_update_all(); //uint8_t pr = 0; 
 		
+	uint32_t s = 0; 
 	while (1)
 	{
 	//	if (pr != c) 
@@ -94,12 +111,24 @@ extern void kernel_main()
 	//		pr = c;  
 		}
 		widget_set_text(&console, stdin); 
+		if ((uint32_t)*system_time % 100 == 0)
+		{
+			widget_set_text(&time, int2str(s)); 
+			s++; 
+		}
+	//	widget_set_text(&time, (uint8_t*)"hey baby"); 
 	//	widget_append_char(&console, kblay); 
 		widget_update_all(); 
-			
-		flip_buffers(); 
+	
+	#include "../tools/graphics/examples/smiley.c"
+	//	sprite_player[2] = 'j';
+	//	sprite_player[0] = 1;
+	//	sprite_player[2] = sprite_player[1]; 
+	//
+	draw_sprite(0, 0, sprite_player); 			
 //		volatile int j = 20 / *((uint8_t*)0x920); 
-//		j++;
+//		j++
+		flip_buffers(); 
 	}
 	asm volatile ("mov $0x888888, %eax"); 
 	asm volatile ("hlt"); 

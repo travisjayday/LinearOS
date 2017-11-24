@@ -1,0 +1,29 @@
+Disk & Boot
+--------------------------------------------------------
+Floppy Size: 		1440 kB	| 	1474560 B	| 2880 sectors
+
+Bootloader Start: 	0x7C00
+Bootloader Size:   	0 kB	|	512 B		| 1 sector
+
+Kernel & Memory 
+--------------------------------------------------------
+Stack Start:		0x7E00
+Stack End: 			0x500
+Stack Size: 		30 kB	|	30976 B		| 60 sectors	
+
+Kernel Start: 		0x7E00
+Kernel End:   		0xCE00
+Kernel Size: 	  	20 kB	|   20480 B		| 40 sectors
+
+Heap Start			0xCE00
+Heap End:			0x19600
+Heap Size:			50 kB	|	51200 B 	| 100 sectors
+
+Programs / Data
+---------------------------------------------------------
+Data Start: 		0x19600	
+Data End: 			0x7FFFF
+Data Size: 			410 kB	|	419840 B	| 820 sectors
+
+
+

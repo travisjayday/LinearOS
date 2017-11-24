@@ -1,7 +1,7 @@
 // returns pointer to free memory
-uint8_t* malloc(uint32_t size)
+void* malloc(uint32_t size)
 {
-	uint8_t* start = free_memory; 
+	void* start = free_memory; 
 	free_memory += size; 
 
 	// system out of memory

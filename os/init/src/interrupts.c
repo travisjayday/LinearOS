@@ -165,7 +165,7 @@ void isr_traps_init()
 void enable_hardware_interrupts()
 {
 	asm volatile(
-	"movb	$0xFD, %al	\n"\
+	"movb	$11111100, %al # // 0 = enabled, 1 = disabled, irq 0 = lsb, irq 8 = msb\n"\
 	"out	%al, $0x21 \n"\
 	"out	%al, $0xA1 \n"); 
 

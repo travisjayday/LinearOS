@@ -14,7 +14,7 @@ start:
 	; setup stack
 	cli
 	mov	ss, ax
-	mov	sp, 0x7C00
+	mov	sp, 0x7DFF
 	sti
 
 	; write start string
@@ -42,7 +42,7 @@ start:
 
 	; attempt read 
 	mov	ah, 0x02	; select read
-	mov	al, 0x2F	; num sectors
+	mov	al, 0x41	; num sectors
 	int 	0x13
 	jc	read_floppy
 
@@ -73,8 +73,10 @@ write_str:
 	
 fatal_read_str:
 	db "Fatal Error: Read Failure", 0x00
+
 start_str:
 	db "Bootloader Found...", 0xA, 0xD, 0x00
+
 strapper_loaded_str:
 	db "Starting Stage 2 Loader...", 0xA, 0xD, 0x00
 

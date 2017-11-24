@@ -1,5 +1,5 @@
 serializer: 
-	g++ -g src/serialize_image.cpp `pkg-config --libs --cflags opencv`-o serialize_image
+	g++ src/serialize_image.cpp `pkg-config --libs --cflags opencv`-o serialize_image
 	./serialize_image image.jpg
 
 palette: 
