@@ -31,7 +31,7 @@
 00000000000i[      ]   Sound support: no
 00000000000i[      ]   USB support: no
 00000000000i[      ]   VGA extension support: vbe
-00000000000i[MEM0  ] allocated memory at 0x2b46afd45010. after alignment, vector=0x2b46afd46000
+00000000000i[MEM0  ] allocated memory at 0x2afa46046010. after alignment, vector=0x2afa46047000
 00000000000i[MEM0  ] 32.00MB
 00000000000i[MEM0  ] mem block size = 0x00020000, blocks=256
 00000000000i[MEM0  ] rom at 0xfffe0000/131072 ('/usr/share/bochs/BIOS-bochs-latest')
@@ -41,7 +41,7 @@
 00000000000i[DEV   ] PIIX3 PCI-to-ISA bridge present at device 1, function 0
 00000000000i[PLUGIN] init_dev of 'cmos' plugin device by virtual method
 00000000000i[CMOS  ] Using local time for initial clock
-00000000000i[CMOS  ] Setting initial clock to: Fri Nov 24 17:16:08 2017 (time0=1511565368)
+00000000000i[CMOS  ] Setting initial clock to: Fri Nov 24 17:24:14 2017 (time0=1511565854)
 00000000000i[PLUGIN] init_dev of 'dma' plugin device by virtual method
 00000000000i[DMA   ] channel 4 used by cascade
 00000000000i[PLUGIN] init_dev of 'pic' plugin device by virtual method
@@ -145,7 +145,7 @@
 00000444871i[BXVGA ] VBE known Display Interface b0c0
 00000444903i[BXVGA ] VBE known Display Interface b0c5
 00000447828i[VBIOS ] VBE Bios $Id: vbe.c,v 1.62 2009/01/25 15:46:25 vruppert Exp $
-00000641604i[XGUI  ] charmap update. Font is 9 x 16
+00000640360i[XGUI  ] charmap update. Font is 9 x 16
 00000760433i[BIOS  ] Starting rombios32
 00000760871i[BIOS  ] Shutdown flag 0
 00000761455i[BIOS  ] ram_size=0x02000000

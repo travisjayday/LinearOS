@@ -108,28 +108,27 @@ strapper_loaded_str:
 times 0x1b4 - ($-$$) db 0	; start of partition table
 
 ; 0x1b4
-;times 10 db 0 				; unique ID
-db "12345678"
-db 0
-db 0
+db "12345678", 0x0, 0x0		; 10 byte unique id
+
 ; 0x1be 		; Partition 1 
 db 0x80			; boot indicator flag = on
+
 ; start sector
-db 0x00			; starting head = 0
-db 0b00000001	; 2 cylinder high bits, and sector. 00 000001 = high bits cyilinder = 0, sector = 1
-db 0x00			; 7-0 bits of cylinder (insgesamt 9 bits) 
+db 0			; starting head = 0
+db 0b00000001	; cyilinder = 0, sector = 1 (2 cylinder high bits, and sector. 00 000001 = high bits db 0x00)
+db 0			; 7-0 bits of cylinder (insgesamt 9 bits) 
+
 ; filesystem type
-db 0x06			; filesystem type = fat16
-; end sector = start sector
-db 0x01			; ending head = 2
-db 18	; 2 cylinder high bits, and sector. 00 000001 = high bits cyilinder = 0, sector = 1
+db 1			; filesystem type = fat12
+
+; end sector = 2880th sector? I doubt this matters much...
+db 1			; ending head = 1
+db 18			; cyilinder = 79, sector = 18 (2 cylinder high bits, and sector. 00 000001 = high bits db 0x00)
 db 79			; 7-0 bits of cylinder (insgesamt 9 bits) 
 
-db 0			; 32 bit value 
-db 0			; of number of sectors between MBR and partition
-db 0
-db 0			
+dd 0			; 32 bit value of number of sectors between MBR and partition
 
+; dd 2880
 db 0			; 32 bit value 
 db 0			; = 2880 (0xb40)
 db 0x0B
