@@ -29,10 +29,11 @@ nop
      bpbVolumeLabel	db  'BOOT FLOPPY'
      bpbFileSystem	db  'FAT12   '
 
-
+drive_n: db 0
 start: 
+
 	; setup segments
-	xor	ax, ax
+	xor	ax, ax	
 	mov	ds, ax
 	mov	es, ax
 
@@ -42,12 +43,13 @@ start:
 	mov	sp, 0x7C00
 	sti
 
+	mov [drive_n], dl
+
 	; write start string
 	mov 	si,start_str 
 	call	write_str
-
-	; read bootstrapper into memory
-	mov	dl, 0x00	; drive 0 (todo: find boot drive)
+; read bootstrapper into memory
+	mov	dl, [drive_n] 	; drive 0 (todo: find boot drive)
 	mov	dh, 0x00	; head (base = 0)
 	mov	ch, 0x00	; track /cylinder = 0
 	mov	cl, 0x02	; (1= bootloader, 2=start of kernel
@@ -67,7 +69,7 @@ start:
 
 	; attempt read 
 	mov	ah, 0x02	; select read
-	mov	al, 0x41	; num sectors
+	mov	al, 0x2F	; num sectors
 	int 	0x13
 	jc	read_floppy
 
@@ -105,6 +107,7 @@ start_str:
 strapper_loaded_str:
 	db "Starting Stage 2 Loader...", 0xA, 0xD, 0x00
 
+%if 0
 times 0x1b4 - ($-$$) db 0	; start of partition table
 
 ; 0x1b4
@@ -128,7 +131,7 @@ db 79			; 7-0 bits of cylinder (insgesamt 9 bits)
 
 dd 0			; 32 bit value of number of sectors between MBR and partition
 
-; dd 2880
+;dd 2880
 db 0			; 32 bit value 
 db 0			; = 2880 (0xb40)
 db 0x0B
@@ -142,7 +145,8 @@ times 16 db 0
 
 ; 0x1ee			; Parititon 4
 times 16 db 0
-
+%endif
+times 510 - ($-$$) db 0	; start of partition table
 ; 0x1fe			; Signature
 dw	0xAA55
 
