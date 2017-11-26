@@ -11,7 +11,7 @@ bootsrapper:
 
 	; initialize vital componenets 	
 	call	attempt_init_a20
-	call 	init_fpu
+	;call 	init_fpu
 
 	; wait a little
 	mov	cx, 0x003E
@@ -31,7 +31,7 @@ bootsrapper:
 	; enter protected mode
 	cli	
 	lgdt	[gdtr]		; load gdt
-	lidt	[idt_48] 
+	;lidt	[idt_48] 
 	
 	mov	eax, cr0
 	or	eax, 1
@@ -93,7 +93,13 @@ bits 32
 
 protect_mode: 
 	mov	ax, DATA_DESC - NULL_DESC
-	mov 	ds, ax	; update data segment
+	mov	ds, ax	; update data segment
+	mov	ss, ax
+	mov es, ax
+	mov	fs, ax
+	
+	mov	ebp, 0x7C00
+	mov	esp, 0x7C00
 
 	; setup interrupts
 	call 	reprogram_pic	; resets bios defaults for hardware interrupts, mapping them to IRD > 32	

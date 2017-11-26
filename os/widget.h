@@ -10,7 +10,7 @@ typedef struct {
 	uint8_t flags; 		/*  0           1   0 0 0 0 0 0 */ 
 			        // text mode	keyboard enable
 	void (*keyboard_handler)();	
-	uint8_t* text;
+	char* text;
 	uint8_t textidx; 
 	uint8_t txt_color; 
 	uint8_t bufsize; 
@@ -33,9 +33,9 @@ void widget_init_textmode(Widget* wid, uint8_t _bufsize);
 // inits textmode and keyboard mode
 void widget_init_keyboard(Widget* wid, void (*key_handler)());
 
-void widget_set_text(Widget* wid, uint8_t* text);
+void widget_set_text(Widget* wid, char* text);
 
-void widget_append_char(Widget* wid, uint8_t c);
+void widget_append_char(Widget* wid, char c);
 
 #include "src/widget.c"
 #endif

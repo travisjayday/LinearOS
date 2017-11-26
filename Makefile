@@ -7,6 +7,7 @@ elf_sources = os/boot/bootstrapper.asm \
 			  os/init/init_pit.o
 
 elf_objects = build/bootstrapper.o \
+			  build/isr_exceptions.o\
 		  build/isr_keyboard.o \
 		  build/isr_pit.o \
 		  build/init_pit.o \
@@ -30,6 +31,7 @@ make_obj:
 	nasm os/boot/bootloader.asm -f bin -o build/bootloader.bin
 	# TODO: find a better way to assemble the following elf objects...
 	nasm os/boot/bootstrapper.asm -f elf -o build/bootstrapper.o
+	nasm os/init/asm/isr_exceptions.asm -f elf -o build/isr_exceptions.o
 	nasm os/init/asm/isr_keyboard.asm -f elf -o build/isr_keyboard.o
 	nasm os/init/asm/isr_pit.asm -f elf -o build/isr_pit.o
 	nasm os/init/asm/init_pit.asm -f elf -o build/init_pit.o

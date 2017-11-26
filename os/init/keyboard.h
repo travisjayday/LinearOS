@@ -3,8 +3,8 @@
 
 #include "interrupts.h"
 
-extern uint8_t stdin[256]; 
-uint8_t kblayout[128] =
+extern char stdin[256]; 
+char kblayout[128] =
 {
     0,  27, '1', '2', '3', '4', '5', '6', '7', '8', /* 9 */
    '9', '0', '-', '=', '\b',    /* Backspace */

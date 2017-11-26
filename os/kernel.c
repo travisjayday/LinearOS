@@ -3,7 +3,6 @@ asm (".code32");
 #include "mem_mgmt.h"
 #include "helpers/strings.h"
 #include "graphics/drawing.h"
-#include "src/panic.c"
 #include "init/interrupts.h"
 #include "init/keyboard.h"
 #include "init/pit_driver.h"
@@ -40,7 +39,7 @@ char get_scancode()
 }
 
 //Play sound using built in speaker
- static void play_sound(uint32_t nFrequence) {
+/*static void play_sound(uint32_t nFrequence) {
  	uint32_t Div;
  	uint8_t tmp;
  
@@ -55,7 +54,7 @@ char get_scancode()
   	if (tmp != (tmp | 3)) {
  		outb(0x61, tmp | 3);
  	}
- }
+ }*/
 
 extern void kernel_main()
 {
@@ -65,18 +64,28 @@ extern void kernel_main()
 
 	
 	fill_buffer_pattern(STRIPES, VGA_COLOR_DARK_GREY, VGA_COLOR_LIGHT_GREY); 
+	flip_buffers();
 	isr_traps_init(); 
 	init_keyboard(); 
-	init_pit(); 
+	//init_pit(); 
 	enable_hardware_interrupts(); 
-	asm volatile ("sti"); 
-	play_sound(1000); 
-	uint8_t* name = (uint8_t*)"A B C D E F G H I J K L M N O P Q R S T U V W X Y Z";
+	asm ("sti"); 
+
+
+	for (;;);
+/*	play_sound(1000); 
+	char* name = "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z";
 	
 	draw_char(20, 20, 'F', VGA_COLOR_BLUE); 
 	draw_string(10, 50, name, VGA_COLOR_BROWN); 
 	draw_rect(20, 20, 100, 100, VGA_COLOR_WHITE);	
-
+	
+	asm volatile ("push $0xdeadbeef"); 	
+	asm volatile ("pop %eax");
+	register uint32_t my_eax asm("%eax"); 
+	uint32_t j = my_eax;
+	draw_string(50, 10, int2hex(j), VGA_COLOR_BLACK); 
+	
 
 //	register uint8_t* a asm ("eax");   
 //	a = sprite_blue; 
@@ -87,6 +96,7 @@ extern void kernel_main()
 
 //	for (; ;); 
 	Widget console = widget_create1(10, 100, 300, 80, VGA_COLOR_BLUE, 0); 
+	//;asm ("int $0x08"); 
 	Widget time = widget_create1(200, 5, 110, 30, VGA_COLOR_GREEN, 0); 
 
 	// adds widget to global WidgetList
@@ -131,6 +141,6 @@ extern void kernel_main()
 		flip_buffers(); 
 	}
 	asm volatile ("mov $0x888888, %eax"); 
-	asm volatile ("hlt"); 
+	asm volatile ("hlt"); */
 
 }

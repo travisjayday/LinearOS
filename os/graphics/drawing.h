@@ -45,9 +45,9 @@ void fill_buffer(uint8_t color);
 
 void flip_buffers(); 
 
-void draw_char(uint16_t _x, uint16_t _y, uint8_t c, uint8_t color);
+void draw_char(uint16_t _x, uint16_t _y, char c, uint8_t color);
 
-void draw_string(uint16_t _x, uint16_t _y, uint8_t* str, uint8_t color);
+void draw_string(uint16_t _x, uint16_t _y, char* str, uint8_t color);
 
 void draw_rect(uint16_t _x, uint16_t _y, uint16_t width, uint16_t height, uint8_t color);
 

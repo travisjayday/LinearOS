@@ -71,7 +71,7 @@ void widget_render_text(Widget* wid)
 
 }
 
-void widget_set_text(Widget* wid, uint8_t* text)
+void widget_set_text(Widget* wid, char* text)
 {
 	for (int i = 0; *(text + i); i++)
 	{
@@ -79,7 +79,7 @@ void widget_set_text(Widget* wid, uint8_t* text)
 	}
 }
 
-void widget_append_char(Widget* wid, uint8_t c) 
+void widget_append_char(Widget* wid, char c) 
 {
 	wid->textidx++;
 	*(wid->text + wid->textidx) = c; 

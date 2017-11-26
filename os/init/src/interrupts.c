@@ -7,7 +7,7 @@ void register_isr(int n, uint8_t dpl, uint8_t type, uint32_t* isr_addr)
         entry.zero = 0;
         entry.attributes =  1 << 7 | dpl << 5 | type;
         entry.offset_hi = ((uint32_t)(uint32_t*) isr_addr) >> 16;       // high word of interrupt service routine address
-		memcpy8_t((uint8_t*) &idt_base + 8 * n, (uint8_t*) &entry, sizeof(entry)); 
+		memcpy8_t((uint8_t*) &idt_base + 8 * n,  &entry, sizeof(entry)); 
 	/*register uint8_t** a asm ("eax");   
 	a = &idt_base; 
 	asm("hlt"); 
@@ -25,119 +25,86 @@ void register_isr_gate(int n, uint32_t* isr_addr)
 void register_isr_trap(int n, uint32_t* isr_addr) 
 {
 	// 0xF is the magic type for trap interrupts
-	register_isr(n, 0, 0xF, isr_addr); 
+	register_isr(n, 0, 0xE, isr_addr); 
 }
 
-/***************************************************/
-/* Start of Trap Handlers                          */ 
-/***************************************************/
-void cpu_exception(uint8_t* name)
+
+
+extern void isr_divide_error();
+extern void isr_debug_trap();
+extern void isr_non_maskable_interrupt();
+extern void isr_breakpoint();
+extern void isr_overflow();
+extern void isr_round_range_exceeded();
+extern void isr_invalid_opcode();
+extern void isr_device_not_available();
+extern void isr_double_fault();
+extern void isr_invalid_tss();
+extern void isr_segment_not_present();
+extern void isr_stack_segment_fault();
+extern void isr_general_protection_fault();
+extern void isr_page_fault();
+extern void isr_x87_floating_point_exception();
+extern void isr_alignment_check();
+extern void isr_machine_check();
+extern void isr_simd_floating_point_exception();
+
+char* exception_msg[] = 
 {
-	uint32_t d = (uint32_t)__builtin_return_address(0); 
-	uint8_t len = strlen(name); 
-	uint8_t buf[40]; 
-	memcpy8_t(buf, (uint8_t*)"CPU Exception: ", 15); 
-	memcpy8_t(buf + 15, name, len); 
-	memcpy8_t(buf + 15 + len, (uint8_t*)"\n\nAt: 0x", 8); 
-	memcpy8_t(buf + 15 + len + 8, int2hex(d), 9); 
-	panic(buf); 
-}
+	"Divide By Zero\0",			// 0
+	"Debug\0",					// 1
+	"Non-Maskable Interrupt\0",	// 2
+	"Breakpoint\0",				// 3
+	"Overflow\0",				// 4
+	"Round Range Exceeded\0", 	// 5
+	"Invalid Opcode\0", 		// 6
+	"Device not Available\0", 	// 7
+	"Double Fault\0",			// 8
+	"n/a\0",					// 9
+	"Invalid TSS\0",			// A
+	"Segment Not Present\0", 	// B
+	"Stack Segment Fault\0", 	// C
+	"General Protection Fault\0",// D
+	"Page Fault\0", 			// E
+	"n/a"						// F
+	"x87-Floating Point Excp.\0",// 10	
+	"Alignment Check\0", 		// 11
+	"Machine Check\0", 			// 12
+	"Floating Point Exception\0", // 13
+};
 
-void isr_divide_error()
+struct regs
 {
-	cpu_exception((uint8_t*)"Divide by Zero"); 
-}
+	uint32_t gs, fs, es, ds;
+	uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax;
+	uint32_t int_no, err_code;
+	uint32_t eip, cs, cflags, useresp, ss;
+};
 
-void isr_debug_trap()
+void fault_handler(struct regs* r)
 {
-	cpu_exception((uint8_t*)"Debug Fault/Trap"); 
+	fill_buffer(VGA_COLOR_BLUE);
+	uint8_t i = 4; 
+	draw_string(10, 10, "Kernel Panic!\n\n----------------\n\n", VGA_COLOR_WHITE);
+	draw_string(10, ++i*7, strcat("CPU Exception: \0", exception_msg[r->int_no]), VGA_COLOR_WHITE); 
+	draw_string(10, ++i*7, strcat("ERROR: \0", int2hex(r->err_code)), VGA_COLOR_WHITE); 
+	draw_string(10, ++i*7, strcat("EIP: \0", int2hex(r->eip)), VGA_COLOR_WHITE); 
+	draw_string(10, ++i*7, strcat("ESP: \0", int2hex(r->esp)), VGA_COLOR_WHITE); 
+	draw_string(10, ++i*7, strcat("USR-ESP: \0", int2hex(r->useresp)), VGA_COLOR_WHITE); 
+	draw_string(10, ++i*7, strcat("EBP: \0", int2hex(r->ebp)), VGA_COLOR_WHITE); 
+	draw_string(10, ++i*7, strcat("SS: \0", int2hex(r->ss)), VGA_COLOR_WHITE); 
+	draw_string(10, ++i*7, strcat("CS: \0", int2hex(r->cs)), VGA_COLOR_WHITE); 
+	i++; 
+	draw_string(10, ++i*7, "Stack Trace", VGA_COLOR_WHITE); 
+	draw_string(10, ++i*7, strcat("ESP + 08: \0", int2hex(*((uint32_t*)(r->esp + 8)))), VGA_COLOR_WHITE); 
+	draw_string(10, ++i*7, strcat("ESP - 00: \0", int2hex(*((uint32_t*)(r->esp - 0)))), VGA_COLOR_WHITE); 
+	draw_string(10, ++i*7, strcat("ESP - 08: \0", int2hex(*((uint32_t*)(r->esp - 8)))), VGA_COLOR_WHITE); 
+	draw_string(10, ++i*7, strcat("ESP - 16: \0", int2hex(*((uint32_t*)(r->esp - 16)))), VGA_COLOR_WHITE); 
+	draw_string(10, ++i*7, strcat("ESP - 24: \0", int2hex(*((uint32_t*)(r->esp - 24)))), VGA_COLOR_WHITE); 
+	draw_string(10, ++i*7, strcat("ESP - 32: \0", int2hex(*((uint32_t*)(r->esp - 32)))), VGA_COLOR_WHITE); 
+	flip_buffers(); 
+	for (;;); 
 }
-
-void isr_non_maskable_interrupt()
-{
-	cpu_exception((uint8_t*)"Non-maskable Interrupt"); 
-}
-
-void isr_breakpoint()
-{
-	cpu_exception((uint8_t*)"Breakpoint"); 
-}
-
-void isr_overflow()
-{	
-	cpu_exception((uint8_t*)"Overflow"); 
-}
-
-void isr_round_range_exceeded()
-{	
-	cpu_exception((uint8_t*)"Round Range Exceeded"); 
-}
-
-void isr_invalid_opcode()
-{	
-	cpu_exception((uint8_t*)"Invalid Opcode"); 
-}
-
-void isr_device_not_available()
-{	
-	cpu_exception((uint8_t*)"Device Not Available"); 
-}
-
-void isr_double_fault()
-{	
-	cpu_exception((uint8_t*)"Double Fault"); 
-}
-
-void isr_invalid_tss()
-{	
-	cpu_exception((uint8_t*)"Invalid TSS"); 
-}
-
-void isr_segment_not_present()
-{	
-	cpu_exception((uint8_t*)"Segment Not Present"); 
-}
-
-void isr_stack_segment_fault()
-{	
-	cpu_exception((uint8_t*)"Stack Segment Fault"); 
-}
-
-void isr_general_protection_fault()
-{	
-	cpu_exception((uint8_t*)"General Protection Fault"); 
-}
-
-void isr_page_fault()
-{	
-	cpu_exception((uint8_t*)"Page Fault"); 
-}
-
-void isr_x87_floating_point_exception()
-{	
-	cpu_exception((uint8_t*)"x87 Floating Point Exception"); 
-}
-
-void isr_alignment_check()
-{	
-	cpu_exception((uint8_t*)"Alignment Check"); 
-}
-
-void isr_machine_check()
-{	
-	cpu_exception((uint8_t*)"Machine Check"); 
-}
-
-void isr_simd_floating_point_exception()
-{	
-	cpu_exception((uint8_t*)"SIMD Floating-Point Exception"); 
-}
-
-void isr_keyboard()
-{	
-	cpu_exception((uint8_t*)"KEYBOARD PRESSED!!!"); 
-}
-
 void isr_traps_init()
 {
 	register_isr_trap(0x0, (void*) isr_divide_error); 

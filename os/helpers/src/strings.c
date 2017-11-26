@@ -1,26 +1,27 @@
-uint32_t strlen(uint8_t* str) 
+// returns lengt of string + \0
+uint32_t strlen(char* str) 
 {
-	uint32_t i = 0; 
-	for (; *(str+i); i++); 
-	return i; 
+	const char* s; 
+	for (s = str; *s; ++s); 
+	return (s - str); 
 }
 
-uint8_t* int2str(uint32_t num)
+char* int2str(uint32_t num)
 {
 	// 2^32 = 10 digits + 1 null terminator
-	    uint8_t* str = malloc(11);
-		int i;
-	   	for (i = 9; num != 0; i--)
-	   	{
-			str[i] = (num % 10) + '0';
-			num /= 10;
-		}
-		str[10] = '\0';
-		str += i + 1; 
-	    return str;
+	char* str = malloc(11);
+	int i;
+	for (i = 9; num != 0; i--)
+	{
+		str[i] = (num % 10) + '0';
+		num /= 10;
+	}
+	str[10] = '\0';
+	str += i + 1; 
+	return str;
 }
 
-uint32_t str2int(uint8_t* str) 
+uint32_t str2int(char* str) 
 {
 	uint8_t len = strlen(str); 
 	uint32_t result = 0;
@@ -29,9 +30,9 @@ uint32_t str2int(uint8_t* str)
 	return result;
 }
 
-uint8_t* int2hex(uint32_t num)
+char* int2hex(uint32_t num)
 {
-	uint8_t* chars = malloc(9); 
+	char* chars = malloc(9); 
 	uint8_t i = 0;
 	for (char s = 28; s >= 0; s -= 4)
 	{
@@ -44,4 +45,26 @@ uint8_t* int2hex(uint32_t num)
 	}
 	chars[i] = '\0'; 
 	return chars; 
+}
+
+void strcpy(char* dest, char* src)
+{
+	memcpy8_t((uint8_t*) dest, (uint8_t*) src, strlen(src) + 1); 	
+}
+
+char* strcat(char* dest, char* src)
+{
+	char* buf = malloc(strlen(dest) + strlen(src) + 1); 
+	strcpy(buf, dest); 
+	strcpy(buf + strlen(dest), src); 
+	return buf; 
+}
+
+char* format_segmented_addr(uint32_t selector, uint32_t addr)
+{
+	char* formatted = malloc(18);
+	strcpy(formatted, int2hex(selector)); 
+	*(formatted + 8) = ':';
+	strcpy(formatted + 9, int2hex(addr));  	
+	return formatted; 
 }
