@@ -13,7 +13,7 @@ elf_objects = build/bootstrapper.o \
 		  build/init_pit.o \
 		  build/kernel.o
 		  
-
+WERROR = -Werror
 debug: main
 	cd bochs && bochs -q -rc debug.rc
 
@@ -28,15 +28,16 @@ main: make_obj
 	dd if=build/kernel.bin of=build/floppy.img bs=512 seek=1 conv=notrunc
 
 make_obj: 
-	nasm os/boot/bootloader.asm -f bin -o build/bootloader.bin
+	nasm os/boot/bootloader.asm $(WERROR) -f bin -o build/bootloader.bin
 	# TODO: find a better way to assemble the following elf objects...
-	nasm os/boot/bootstrapper.asm -f elf -o build/bootstrapper.o
-	nasm os/init/asm/isr_exceptions.asm -f elf -o build/isr_exceptions.o
-	nasm os/init/asm/isr_keyboard.asm -f elf -o build/isr_keyboard.o
-	nasm os/init/asm/isr_pit.asm -f elf -o build/isr_pit.o
-	nasm os/init/asm/init_pit.asm -f elf -o build/init_pit.o
+	nasm os/boot/bootstrapper.asm $(WERROR) -f elf -o build/bootstrapper.o
+	nasm os/init/asm/isr_exceptions.asm $(WERROR) -f elf -o build/isr_exceptions.o
+	nasm os/init/asm/isr_keyboard.asm $(WERROR) -f elf -o build/isr_keyboard.o
+	nasm os/init/asm/isr_pit.asm $(WERROR) -f elf -o build/isr_pit.o
+	nasm os/init/asm/init_pit.asm $(WERROR) -f elf -o build/init_pit.o
 	# kernel main
-	gcc -c -Os -std=gnu99 -march=i686 -ffreestanding -Wall -Werror -m32 os/kernel.c -o $(Build_Dir)/build/kernel.o
+	#gcc -c -Os -std=gnu99 -march=i686 -ffreestanding -Wall $(WERROR) -m32 os/kernel.c -o $(Build_Dir)/build/kernel.o
+	gcc -c -std=gnu99 -march=i686 -ffreestanding -Wall $(WERROR) -m32 os/kernel.c -o $(Build_Dir)/build/kernel.o
 
 # writes OS to USB automatically at /dev/sdb 
 usb:	main	

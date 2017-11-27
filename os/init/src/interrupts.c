@@ -25,7 +25,7 @@ void register_isr_gate(int n, uint32_t* isr_addr)
 void register_isr_trap(int n, uint32_t* isr_addr) 
 {
 	// 0xF is the magic type for trap interrupts
-	register_isr(n, 0, 0xE, isr_addr); 
+	register_isr(n, 0, 0xF, isr_addr); 
 }
 
 
@@ -132,7 +132,7 @@ void isr_traps_init()
 void enable_hardware_interrupts()
 {
 	asm volatile(
-	"movb	$11111101, %al # // 0 = enabled, 1 = disabled, irq 0 = lsb, irq 8 = msb\n"\
+	"movb	$0b11111101, %al # // 0 = enabled, 1 = disabled, irq 0 = lsb, irq 8 = msb\n"\
 	"out	%al, $0x21 \n"\
 	"out	%al, $0xA1 \n"); 
 

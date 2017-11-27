@@ -12,8 +12,22 @@ extern kblayout		; table with scan code to ascii conversion
 
 global isr_keyboard_handler
 isr_keyboard_handler: 
-	push byte 0 
 ;	cli
+;	in al, 0x60		; if msb is set, it means the key was released
+	; acknowledge pic
+;	mov	al, 0x20
+;	out	0x20, al
+	; return 
+;	popad
+	;mov [esp], dword 0xdeadbeef
+	;mov eax, [esp]
+	;jmp $
+	;push byte 2
+;	add esp, 8
+;mov ax, 0x10
+	;mov	ss,ax 
+	iretd
+
 %if 0
 	pushad
 	cld
@@ -41,15 +55,5 @@ isr_keyboard_handler:
 	; satisfy PIC for next interrutps
   iret_now: 
 
-	; acknowledge pic
-	mov	al, 0x20
-	out	0x20, al
 %endif
-	; return 
-;	popad
-	;mov [esp], dword 0xdeadbeef
-	;mov eax, [esp]
-	;jmp $
-	;push byte 2
-	iret	
 
