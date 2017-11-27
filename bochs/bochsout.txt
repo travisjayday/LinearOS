@@ -31,7 +31,7 @@
 00000000000i[      ]   Sound support: no
 00000000000i[      ]   USB support: no
 00000000000i[      ]   VGA extension support: vbe
-00000000000i[MEM0  ] allocated memory at 0x7f5846326010. after alignment, vector=0x7f5846327000
+00000000000i[MEM0  ] allocated memory at 0x7f13dc3e3010. after alignment, vector=0x7f13dc3e4000
 00000000000i[MEM0  ] 32.00MB
 00000000000i[MEM0  ] mem block size = 0x00020000, blocks=256
 00000000000i[MEM0  ] rom at 0xfffe0000/131072 ('/usr/share/bochs/BIOS-bochs-latest')
@@ -41,7 +41,7 @@
 00000000000i[DEV   ] PIIX3 PCI-to-ISA bridge present at device 1, function 0
 00000000000i[PLUGIN] init_dev of 'cmos' plugin device by virtual method
 00000000000i[CMOS  ] Using local time for initial clock
-00000000000i[CMOS  ] Setting initial clock to: Sun Nov 26 18:26:16 2017 (time0=1511742376)
+00000000000i[CMOS  ] Setting initial clock to: Sun Nov 26 19:18:56 2017 (time0=1511745536)
 00000000000i[PLUGIN] init_dev of 'dma' plugin device by virtual method
 00000000000i[DMA   ] channel 4 used by cascade
 00000000000i[PLUGIN] init_dev of 'pic' plugin device by virtual method
@@ -173,5 +173,5 @@
 00001402561i[BIOS  ] ACPI tables: RSDP addr=0x000fa640 ACPI DATA addr=0x01ff0000 size=0x1f22
 00001402598i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
 00001403329i[BIOS  ] bios_table_cur_addr: 0x000fa664
-00005048632i[XGUI  ] charmap update. Font is 9 x 16
+00004140736i[XGUI  ] charmap update. Font is 9 x 16
 00029626098i[BIOS  ] Booting from 0000:7c00
