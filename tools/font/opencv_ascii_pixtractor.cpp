@@ -33,14 +33,17 @@ void analyze_char(Mat roi, char list)
 		cout << "0000000,\n"; 
 	}
 	else
+	{
 		cout << endl;
-	waitKey(0);	
+		waitKey(0);	
+	}
 }
 int main()
 {
 	Mat file = imread("ascii_symbols.jpg", CV_LOAD_IMAGE_GRAYSCALE);
 	for (int x = 0; x < file.cols; x+=6)
 	{
+		// CHANGE THE LAST ARGUMENT TO 0 FOR VISUAL OUTPUT
 		analyze_char(file(Rect(x, 0, 5, 5)), 1);
 	}
 

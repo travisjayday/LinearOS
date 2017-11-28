@@ -94,7 +94,6 @@ isr_page_fault:
 	cli 
 	push byte 14
 	jmp isr_common
-
 isr_x87_floating_point_exception:
 	cli
 	push byte 0

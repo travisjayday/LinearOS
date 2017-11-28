@@ -18,7 +18,7 @@ int main()
 	cv::Mat image = cv::imread("src/vgapalette.png");
 	if (!(image.cols > 0 && image.rows > 0))
 	{
-		cout << "Failed to open vgapallete input file" << endl; 
+		cout << "Failed to open vgapallete input file (src/vgapalette.png)" << endl; 
 		return -1; 
 	}
 
@@ -44,4 +44,6 @@ int main()
 		j++; 
 	}	
 	fprintf(outfil, "};"); 		
+
+	cout << "Wrote to vgapalette.cpp!" << endl;
 }

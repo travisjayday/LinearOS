@@ -11,7 +11,7 @@ bootsrapper:
 
 	; initialize vital componenets 	
 	call	attempt_init_a20
-	call 	init_fpu
+	;call 	init_fpu
 
 	; wait a little
 	mov	cx, 0x003E
@@ -31,7 +31,7 @@ bootsrapper:
 	; enter protected mode
 	cli	
 	lgdt	[gdtr]		; load gdt
-	lidt	[idt_48] 
+	;lidt	[idt_48] 
 	
 	mov	eax, cr0
 	or	eax, 1
@@ -55,8 +55,8 @@ write_str:
 	ret
 
 ; includes
-%include "os/boot/src/a20.asm"
-%include "os/boot/src/fpu.asm"
+%include "os/boot/src/a20.asm"		; for enabling a20 line
+%include "os/boot/src/fpu.asm"		; for enabling FPU
 
 vga_str:
 	db "Switching to VGA...", 0xA, 0xD, "Jumping to Protected mode & Enabling Interrupts", 0x0
@@ -89,6 +89,7 @@ gdtr:
 
 bits 32
 
+; for reprograming PIC
 %include "os/boot/src/interrupts.asm"
 
 protect_mode: 
@@ -106,5 +107,4 @@ protect_mode:
 	lidt	[idt_descr]	; remembers the base adres and size of idt
 	nop
 	call	kernel_main
-	hlt
 

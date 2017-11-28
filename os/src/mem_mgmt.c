@@ -1,3 +1,4 @@
+// TODO: this is preliminary for quick and dirty heap allocations
 // returns pointer to free memory
 void* malloc(uint32_t size)
 {
@@ -20,24 +21,26 @@ void linear_free(uint32_t size)
 
 void memcpy8_t(void* dest, void* src, uint32_t size)
 {
-	for (int i = 0; i < size; i++) 
+	// copy byte for byte
+	for (uint32_t i = 0; i < size; i++) 
 	{
 		*((uint8_t*)dest + i) = *((uint8_t*)src + i); 
 	}
 }
 
-void memcpy32_t(uint32_t* dest, uint32_t* src, uint32_t size)
+void memcpy32_t(void* dest, void* src, uint32_t size)
 {
-	for (int i = 0; i < size; i++)
+	// copy dword for dword
+	for (uint32_t i = 0; i < size; i++)
 	{
-		*(dest + i) = *(src + i); 
+		*((uint32_t*)dest + i) = *((uint32_t*)src + i); 
 	}
 }
 
-void memset32_t(uint32_t* dest, uint32_t val, uint32_t size)
+void memset32_t(void* dest, uint32_t val, uint32_t size)
 {
-	for (int i = 0; i < size; i++)
+	for (uint32_t i = 0; i < size; i++)
 	{
-		*(dest + i) = val;
+		*((uint32_t*)dest + i) = val;
 	}
 }
