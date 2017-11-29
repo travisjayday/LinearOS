@@ -4,10 +4,12 @@
 bits 16
 ;org 0x1000
 extern kernel_main
+extern __bss_sizeb
+extern __bss_start
 
 section .text
-global bootstrapper
-bootsrapper: 
+global bootsrapper
+bootsrapper:
 
 	; initialize vital componenets 	
 	call	attempt_init_a20
@@ -105,6 +107,14 @@ protect_mode:
 	; setup interrupts
 	call 	reprogram_pic	; resets bios defaults for hardware interrupts, mapping them to IRD > 32	
 	lidt	[idt_descr]	; remembers the base adres and size of idt
-	nop
+
+	; zero fill the bss section
+	cld						; set forward direction so that GCC C code is happy
+	xor al, al				; fill memory with al (aka 0)
+	mov cx, __bss_sizeb		; size of bytes computed from linkerscript
+	mov	di, __bss_start		; start of bss defined in linkerscript
+	rep stosb				; fill memory with zero bytes
+
+	; start kernel
 	call	kernel_main
 

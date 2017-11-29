@@ -31,7 +31,7 @@
 00000000000i[      ]   Sound support: no
 00000000000i[      ]   USB support: no
 00000000000i[      ]   VGA extension support: vbe
-00000000000i[MEM0  ] allocated memory at 0x2b0961f27010. after alignment, vector=0x2b0961f28000
+00000000000i[MEM0  ] allocated memory at 0x2b1858493010. after alignment, vector=0x2b1858494000
 00000000000i[MEM0  ] 32.00MB
 00000000000i[MEM0  ] mem block size = 0x00020000, blocks=256
 00000000000i[MEM0  ] rom at 0xfffe0000/131072 ('/usr/share/bochs/BIOS-bochs-latest')
@@ -41,7 +41,7 @@
 00000000000i[DEV   ] PIIX3 PCI-to-ISA bridge present at device 1, function 0
 00000000000i[PLUGIN] init_dev of 'cmos' plugin device by virtual method
 00000000000i[CMOS  ] Using local time for initial clock
-00000000000i[CMOS  ] Setting initial clock to: Mon Nov 27 19:39:43 2017 (time0=1511833183)
+00000000000i[CMOS  ] Setting initial clock to: Tue Nov 28 18:17:41 2017 (time0=1511914661)
 00000000000i[PLUGIN] init_dev of 'dma' plugin device by virtual method
 00000000000i[DMA   ] channel 4 used by cascade
 00000000000i[PLUGIN] init_dev of 'pic' plugin device by virtual method
@@ -145,7 +145,7 @@
 00000444871i[BXVGA ] VBE known Display Interface b0c0
 00000444903i[BXVGA ] VBE known Display Interface b0c5
 00000447828i[VBIOS ] VBE Bios $Id: vbe.c,v 1.62 2009/01/25 15:46:25 vruppert Exp $
-00000646312i[XGUI  ] charmap update. Font is 9 x 16
+00000641308i[XGUI  ] charmap update. Font is 9 x 16
 00000760433i[BIOS  ] Starting rombios32
 00000760871i[BIOS  ] Shutdown flag 0
 00000761455i[BIOS  ] ram_size=0x02000000
@@ -180,3 +180,14 @@
 00001836843i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
 00001837567i[BIOS  ] bios_table_cur_addr: 0x000fbb54
 00014041010i[BIOS  ] Booting from 0000:7c00
+00066864000i[KBD   ] internal keyboard buffer full, ignoring scancode.(25)
+00067572000i[KBD   ] internal keyboard buffer full, ignoring scancode.(26)
+00068204000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1e)
+00068396000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a1)
+00068608000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a6)
+00069172000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a5)
+00069452000i[KBD   ] internal keyboard buffer full, ignoring scancode.(20)
+00070488000i[KBD   ] internal keyboard buffer full, ignoring scancode.(21)
+00070652000i[KBD   ] internal keyboard buffer full, ignoring scancode.(9e)
+00071168000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a0)
+00072920000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a1)

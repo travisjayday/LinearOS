@@ -1,21 +1,32 @@
-ENTRY(bootstrapper);
+ENTRY(bootsrapper);
 SECTIONS
 {
-	. = 0x7E00; 
+	. = 0x7E00;
 	.text : AT(0x7E00)
 	{
-		*(.text);
+			*(.text);
 	}
-	/*.data : ALIGN(0x8) 
+	.data : ALIGN(0x8)
 	{
-		*(.data);
+			*(.rodata);
+			*(.data);
 	}
-	.bss : ALIGN(0x8) 
+	/* BSS section defnition after the text and data */
+	.bss : ALIGN(0x8)
 	{
-		*(.bss); 
-	}*/
-/*	.sig : AT(0x7E00)
-	{
-		SHORT(0xAA55);
-	}*/
+			__bss_start = .;
+			*(COMMON);
+			*(.bss)
+			. = ALIGN(4);
+			__bss_end = .;
+	}
+	__bss_sizeb = SIZEOF(.bss);
+
+	/* Remove sections that won't be relevant to us */
+	/DISCARD/ : {
+			*(.eh_frame);
+			*(.comment);
+			*(.note.gnu.build-id);
+	}
 }
+
