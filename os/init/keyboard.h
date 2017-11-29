@@ -2,6 +2,17 @@
 #define KEYBOARD_H_
 
 #include "interrupts.h"
+#include "../tty.h"
+
+enum KYBRD_ENC_IO {
+	KYBRD_ENC_INPUT_BUF = 0x60,
+	KYBRD_ENC_CMD_REG = 0x60
+};
+
+enum KYBRD_CTRL_IO {
+	KYBRD_CTRL_STATS_REG = 0x64,
+	KYBRD_CTRL_CMD_REG = 0x64
+};
 
 extern char stdin[256]; 
 char kblayout[128] =
@@ -46,6 +57,17 @@ char kblayout[128] =
 extern void isr_keyboard_handler(); 
 void init_keyboard(); 
 
+// returns the byte status of keyboard controller
+uint8_t kybrd_ctrl_read_status();
+
+// reads the current item in keyboard enocder buffer
+uint8_t kybrd_enc_read_buf();
+
+// send command to keyboard controller
+void kybrd_ctrl_send_cmd(uint8_t cmd); 
+
+// send command to keyboard encoder
+void kybrd_enc_send_cmd(uint8_t cmd); 
 #include "src/keyboard.c"
 
 #endif

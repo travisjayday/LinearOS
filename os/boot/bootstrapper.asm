@@ -13,7 +13,7 @@ bootsrapper:
 
 	; initialize vital componenets 	
 	call	attempt_init_a20
-	;call 	init_fpu
+	call 	init_fpu
 
 	; wait a little
 	mov	cx, 0x003E

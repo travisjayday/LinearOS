@@ -1,6 +1,6 @@
 00000000000i[      ] Bochs x86 Emulator 2.6.9
 00000000000i[      ]   Built from SVN snapshot on April 9, 2017
-00000000000i[      ] Compiled on Nov 13 2017 at 18:41:11
+00000000000i[      ] Compiled on Nov 24 2017 at 18:08:52
 00000000000i[      ] System configuration
 00000000000i[      ]   processors: 1 (cores=1, HT threads=1)
 00000000000i[      ]   A20 line support: yes
@@ -22,8 +22,8 @@
 00000000000i[      ]   x86-64 support: no
 00000000000i[      ]   MWAIT support: yes
 00000000000i[      ] Optimization configuration
-00000000000i[      ]   RepeatSpeedups support: yes
-00000000000i[      ]   Fast function calls: yes
+00000000000i[      ]   RepeatSpeedups support: no
+00000000000i[      ]   Fast function calls: no
 00000000000i[      ]   Handlers Chaining speedups: no
 00000000000i[      ] Devices configuration
 00000000000i[      ]   PCI support: i440FX i430FX
@@ -31,7 +31,7 @@
 00000000000i[      ]   Sound support: no
 00000000000i[      ]   USB support: no
 00000000000i[      ]   VGA extension support: vbe
-00000000000i[MEM0  ] allocated memory at 0x2b1858493010. after alignment, vector=0x2b1858494000
+00000000000i[MEM0  ] allocated memory at 0x7f56abc17010. after alignment, vector=0x7f56abc18000
 00000000000i[MEM0  ] 32.00MB
 00000000000i[MEM0  ] mem block size = 0x00020000, blocks=256
 00000000000i[MEM0  ] rom at 0xfffe0000/131072 ('/usr/share/bochs/BIOS-bochs-latest')
@@ -41,7 +41,7 @@
 00000000000i[DEV   ] PIIX3 PCI-to-ISA bridge present at device 1, function 0
 00000000000i[PLUGIN] init_dev of 'cmos' plugin device by virtual method
 00000000000i[CMOS  ] Using local time for initial clock
-00000000000i[CMOS  ] Setting initial clock to: Tue Nov 28 18:17:41 2017 (time0=1511914661)
+00000000000i[CMOS  ] Setting initial clock to: Tue Nov 28 22:51:19 2017 (time0=1511931079)
 00000000000i[PLUGIN] init_dev of 'dma' plugin device by virtual method
 00000000000i[DMA   ] channel 4 used by cascade
 00000000000i[PLUGIN] init_dev of 'pic' plugin device by virtual method
@@ -73,8 +73,7 @@
 00000000000i[PLUGIN] init_dev of 'unmapped' plugin device by virtual method
 00000000000i[PLUGIN] init_dev of 'biosdev' plugin device by virtual method
 00000000000i[PLUGIN] init_dev of 'speaker' plugin device by virtual method
-00000000000e[PCSPK ] Failed to open /dev/console: Permission denied
-00000000000e[PCSPK ] Deactivating beep on console
+00000000000i[PCSPK ] Using /dev/console for output
 00000000000i[PLUGIN] init_dev of 'extfpuirq' plugin device by virtual method
 00000000000i[PLUGIN] init_dev of 'parallel' plugin device by virtual method
 00000000000i[PAR   ] parallel port 1 at 0x0378 irq 7
@@ -139,55 +138,47 @@
 00000000000i[PLUGIN] reset of 'parallel' plugin device by virtual method
 00000000000i[PLUGIN] reset of 'serial' plugin device by virtual method
 00000000000i[PLUGIN] reset of 'iodebug' plugin device by virtual method
-00000003305i[BIOS  ] $Revision: 1.257 $ $Date: 2011/01/26 09:52:02 $
-00000318042i[KBD   ] reset-disable command received
-00000444800i[VBIOS ] VGABios $Id: vgabios.c,v 1.69 2009/04/07 18:18:20 vruppert Exp $
-00000444871i[BXVGA ] VBE known Display Interface b0c0
-00000444903i[BXVGA ] VBE known Display Interface b0c5
-00000447828i[VBIOS ] VBE Bios $Id: vbe.c,v 1.62 2009/01/25 15:46:25 vruppert Exp $
-00000641308i[XGUI  ] charmap update. Font is 9 x 16
-00000760433i[BIOS  ] Starting rombios32
-00000760871i[BIOS  ] Shutdown flag 0
-00000761455i[BIOS  ] ram_size=0x02000000
-00000761876i[BIOS  ] ram_end=32MB
-00000802399i[BIOS  ] Found 1 cpu(s)
-00000818247i[BIOS  ] bios_table_addr: 0x000fb928 end=0x000fcc00
-00001146038i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
-00001473966i[P2ISA ] PCI IRQ routing: PIRQA# set to 0x0b
-00001473985i[P2ISA ] PCI IRQ routing: PIRQB# set to 0x09
-00001474004i[P2ISA ] PCI IRQ routing: PIRQC# set to 0x0b
-00001474023i[P2ISA ] PCI IRQ routing: PIRQD# set to 0x09
-00001474033i[P2ISA ] write: ELCR2 = 0x0a
-00001474804i[BIOS  ] PIIX3/PIIX4 init: elcr=00 0a
-00001482476i[BIOS  ] PCI: bus=0 devfn=0x00: vendor_id=0x8086 device_id=0x1237 class=0x0600
-00001484751i[BIOS  ] PCI: bus=0 devfn=0x08: vendor_id=0x8086 device_id=0x7000 class=0x0601
-00001486865i[BIOS  ] PCI: bus=0 devfn=0x09: vendor_id=0x8086 device_id=0x7010 class=0x0101
-00001487089i[PIDE  ] new BM-DMA address: 0xc000
-00001487704i[BIOS  ] region 4: 0x0000c000
-00001489731i[BIOS  ] PCI: bus=0 devfn=0x0b: vendor_id=0x8086 device_id=0x7113 class=0x0680
-00001489960i[ACPI  ] new irq line = 11
-00001489972i[ACPI  ] new irq line = 9
-00001489997i[ACPI  ] new PM base address: 0xb000
-00001490011i[ACPI  ] new SM base address: 0xb100
-00001490039i[PCI   ] setting SMRAM control register to 0x4a
-00001654132i[CPU0  ] Enter to System Management Mode
-00001654143i[CPU0  ] RSM: Resuming from System Management Mode
-00001818164i[PCI   ] setting SMRAM control register to 0x0a
-00001826914i[BIOS  ] MP table addr=0x000fba00 MPC table addr=0x000fb930 size=0xd0
-00001828728i[BIOS  ] SMBIOS table addr=0x000fba10
-00001831883i[BIOS  ] Firmware waking vector 0x1ff00cc
-00001836807i[BIOS  ] ACPI tables: RSDP addr=0x000fbb30 ACPI DATA addr=0x01ff0000 size=0x1f18
-00001836843i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
-00001837567i[BIOS  ] bios_table_cur_addr: 0x000fbb54
-00014041010i[BIOS  ] Booting from 0000:7c00
-00066864000i[KBD   ] internal keyboard buffer full, ignoring scancode.(25)
-00067572000i[KBD   ] internal keyboard buffer full, ignoring scancode.(26)
-00068204000i[KBD   ] internal keyboard buffer full, ignoring scancode.(1e)
-00068396000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a1)
-00068608000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a6)
-00069172000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a5)
-00069452000i[KBD   ] internal keyboard buffer full, ignoring scancode.(20)
-00070488000i[KBD   ] internal keyboard buffer full, ignoring scancode.(21)
-00070652000i[KBD   ] internal keyboard buffer full, ignoring scancode.(9e)
-00071168000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a0)
-00072920000i[KBD   ] internal keyboard buffer full, ignoring scancode.(a1)
+00000004661i[BIOS  ] $Revision: 11318 $ $Date: 2012-08-06 19:59:54 +0200 (Mo, 06. Aug 2012) $
+00000319074i[KBD   ] reset-disable command received
+00000321799i[BIOS  ] Starting rombios32
+00000322244i[BIOS  ] Shutdown flag 0
+00000322841i[BIOS  ] ram_size=0x02000000
+00000323272i[BIOS  ] ram_end=32MB
+00000363813i[BIOS  ] Found 1 cpu(s)
+00000377993i[BIOS  ] bios_table_addr: 0x000fa438 end=0x000fcc00
+00000636120i[XGUI  ] charmap update. Font is 9 x 16
+00000705788i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
+00001033720i[P2ISA ] PCI IRQ routing: PIRQA# set to 0x0b
+00001033744i[P2ISA ] PCI IRQ routing: PIRQB# set to 0x09
+00001033768i[P2ISA ] PCI IRQ routing: PIRQC# set to 0x0b
+00001033792i[P2ISA ] PCI IRQ routing: PIRQD# set to 0x09
+00001033802i[P2ISA ] write: ELCR2 = 0x0a
+00001034580i[BIOS  ] PIIX3/PIIX4 init: elcr=00 0a
+00001042265i[BIOS  ] PCI: bus=0 devfn=0x00: vendor_id=0x8086 device_id=0x1237 class=0x0600
+00001044549i[BIOS  ] PCI: bus=0 devfn=0x08: vendor_id=0x8086 device_id=0x7000 class=0x0601
+00001046672i[BIOS  ] PCI: bus=0 devfn=0x09: vendor_id=0x8086 device_id=0x7010 class=0x0101
+00001046901i[PIDE  ] new BM-DMA address: 0xc000
+00001047523i[BIOS  ] region 4: 0x0000c000
+00001049564i[BIOS  ] PCI: bus=0 devfn=0x0b: vendor_id=0x8086 device_id=0x7113 class=0x0680
+00001049794i[ACPI  ] new irq line = 11
+00001049808i[ACPI  ] new irq line = 9
+00001049835i[ACPI  ] new PM base address: 0xb000
+00001049849i[ACPI  ] new SM base address: 0xb100
+00001049877i[PCI   ] setting SMRAM control register to 0x4a
+00001213971i[CPU0  ] Enter to System Management Mode
+00001213982i[CPU0  ] RSM: Resuming from System Management Mode
+00001378003i[PCI   ] setting SMRAM control register to 0x0a
+00001392897i[BIOS  ] MP table addr=0x000fa510 MPC table addr=0x000fa440 size=0xc8
+00001394720i[BIOS  ] SMBIOS table addr=0x000fa520
+00001397701i[BIOS  ] Firmware waking vector 0x1ff00cc
+00001402561i[BIOS  ] ACPI tables: RSDP addr=0x000fa640 ACPI DATA addr=0x01ff0000 size=0x1f22
+00001402598i[PCI   ] i440FX PMC write to PAM register 59 (TLB Flush)
+00001403329i[BIOS  ] bios_table_cur_addr: 0x000fa664
+00001527875i[VBIOS ] VGABios $Id: vgabios.c,v 1.69 2009/04/07 18:18:20 vruppert Exp $
+00001527946i[BXVGA ] VBE known Display Interface b0c0
+00001527978i[BXVGA ] VBE known Display Interface b0c5
+00001530903i[VBIOS ] VBE Bios $Id: vbe.c,v 1.62 2009/01/25 15:46:25 vruppert Exp $
+00001847860i[XGUI  ] charmap update. Font is 9 x 16
+00014040950i[BIOS  ] Booting from 0000:7c00
+00033919598i[KBD   ] reset-enable command received
+00033919667e[KBD   ] unsupported io write to keyboard port 64, value = 16

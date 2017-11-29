@@ -7,6 +7,7 @@ asm (".code32");
 #include "init/interrupts.h"
 #include "init/keyboard.h"
 #include "init/pit_driver.h"
+#include "tty.h"
 #include "widget.h"
 
 // does nothing for now...
@@ -64,10 +65,11 @@ extern void kernel_main()
 	// enables text output (allocates 50 bytes text buffer)
 	widget_init_textmode(&time, 50); 
 		
+	println("Hello wrold"); 
 	while (1)
 	{
 		// set text of console to the keyboard input buffer
-		widget_set_text(&console, stdin); 
+		widget_set_text(&console, stdout); 
 		/*if ((uint32_t)*system_time % 100 == 0)
 		{
 			widget_set_text(&time, int2str(s)); 
